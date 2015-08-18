@@ -25,4 +25,8 @@ public class TempHumidity {
 		return humidity;
 	}
 
+	@Override
+	public String toString(){
+		return "Temp: " + temp + ", Humid: " + humidity;
+	}
 }
