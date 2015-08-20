@@ -18,8 +18,21 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.DateTimeParser;
 
+/**
+ * This class represents a log of all recorded temperatures.
+ * 
+ * You should not instantiate this class with the 'new' keyword. Instead, use the static "getLog(String)" method
+ * to retrieve the instance associated with the specified sensor.
+ * The "getSensorNames" method returns an array of the names of all of the available logs.
+ * You should pass one of these names to the "getLog" method.
+ * 
+ * To change the names of the sensors, go to src/main/resources/config.properties.
+ * (You'll also want to change the directory the log files are stored in for testing
+ * on your own computer. This is another option in the config file.)
+ * @author Timothy Scott
+ *
+ */
 public class TemperatureLog {
 
 	private static final Logger logger = LogManager.getLogger(TemperatureLog.class);
@@ -147,6 +160,11 @@ public class TemperatureLog {
 		return sensorName;
 	}
 
+	/*
+	 * This is just for testing. The final program will not have a main method here.
+	 * 
+	 * (It might not have one at all, I need to look into that.)
+	 */
 	public static void main(String[] args){
 		TemperatureLog log = getLog("indoor2");
 		
@@ -157,7 +175,7 @@ public class TemperatureLog {
 			try {
 				Thread.sleep(1001);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 
