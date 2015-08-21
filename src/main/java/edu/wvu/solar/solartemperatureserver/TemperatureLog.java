@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Scanner;
@@ -16,10 +15,6 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * This class represents a log of all recorded temperatures.
@@ -39,7 +34,7 @@ public class TemperatureLog {
 
 	private static final Logger logger = LogManager.getLogger(TemperatureLog.class);
 	public static final String PROPERTIES_FILE = "config.properties";
-	//public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
 	private static String logFileRoot;
 	private static String[] sensorNames;
 

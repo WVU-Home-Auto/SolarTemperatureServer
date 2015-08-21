@@ -1,13 +1,7 @@
 package edu.wvu.solar.solartemperatureserver;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
-
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
