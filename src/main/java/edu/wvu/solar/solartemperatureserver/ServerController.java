@@ -29,4 +29,6 @@ public class ServerController {
 	public String[] getSensorNames(){
 		return TemperatureLog.getSensorNames();
 	}
+	
+	
 }
