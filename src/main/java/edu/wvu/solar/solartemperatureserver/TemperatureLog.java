@@ -39,6 +39,7 @@ public class TemperatureLog {
 	private static String[] sensorNames;
 
 	private static HashMap<String, TemperatureLog> instances;
+	private static HashMap<String, String> sensorUrls;
 
 	/*
 	 * Initializes the instances of TemperatureLog
@@ -46,15 +47,26 @@ public class TemperatureLog {
 	static{
 		Properties prop = new Properties();
 		InputStream is = TemperatureLog.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+		String[] urls;
 		try {
 			prop.load(is);
 			logFileRoot = prop.getProperty("logfileroot");
 			sensorNames = prop.getProperty("sensornames").split(",");
+			urls = prop.getProperty("sensorUrls").split(",");
 		} catch (IOException e) {
 			logger.error("Error loading properties file " + PROPERTIES_FILE + ": ", e);
 			logger.error("Using default values.");
 			logFileRoot = "";
 			sensorNames = new String[]{"sensor1", "sensor2", "sensor3"};
+			urls = new String[]{"https://agent.electricimp.com/Zkb2-jaOX8lo",
+					"https://agent.electricimp.com/LZw17jOvml3C",
+					"https://agent.electricimp.com/d5u_M9an89Xf"};
+		}finally{
+			try {
+				is.close();
+			} catch (IOException e) {
+				logger.error("Error closing inputStream from reading properties file. ", e);
+			}
 		}
 
 		if(!logFileRoot.endsWith("/") && logFileRoot.length() > 0){
@@ -64,6 +76,11 @@ public class TemperatureLog {
 		instances = new HashMap<String, TemperatureLog>();
 		for(String s : sensorNames){
 			instances.put(s, new TemperatureLog(s));
+		}
+		
+		sensorUrls = new HashMap<String, String>();
+		for(int i = 0; i < sensorNames.length; i++){
+			sensorUrls.put(sensorNames[i], urls[i]);
 		}
 	}
 
@@ -88,6 +105,15 @@ public class TemperatureLog {
 		return instances.keySet().toArray(new String[instances.size()]);
 	}
 
+	/**
+	 * Gives the electric imp agent url for the sensor of the supplied name.
+	 * 
+	 * @param sensorName Name of the sensor. Must be one of the sensors given in getSensorNames()
+	 * @return Url of the electric imp corresponding to that sensor name. (This is taken directly from the properties file)
+	 */
+	public static String getUrl(String sensorName){
+		return sensorUrls.get(sensorName);
+	}
 
 	private String sensorName;
 	private File logFile;
