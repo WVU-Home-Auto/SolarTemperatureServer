@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
@@ -131,7 +132,7 @@ public class TemperatureLog {
 			try {
 				logFile.createNewFile();
 			} catch (IOException e) {
-				logger.error("Exception creating new logFile " + logFilePath, e);
+				logger.fatal("Exception creating new logFile " + logFilePath, e);
 			}
 		}
 	}
@@ -145,6 +146,13 @@ public class TemperatureLog {
 	public synchronized void log(LogEntry temp){
 		try {
 			Files.write(Paths.get(logFile.getAbsolutePath()), (temp.toString() + "\n").getBytes(), StandardOpenOption.APPEND);
+		} catch (NoSuchFileException e){
+			logger.error("Error writing to temperature log file " + logFile.getPath() + ". Was the file deleted while this program was running?", e);
+			try {
+				logFile.createNewFile();
+			} catch (IOException e1) {
+				logger.error("Error creating new temperature log file " + logFile.getPath() + " to replace the one that was apparently just deleted.", e1);
+			}
 		} catch (IOException e) {
 			logger.error("Error appending log entry to file " + logFile.getAbsolutePath(), e);
 		}

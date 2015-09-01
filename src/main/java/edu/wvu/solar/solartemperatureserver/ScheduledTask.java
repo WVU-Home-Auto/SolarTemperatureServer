@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 @Component
@@ -29,13 +30,39 @@ public class ScheduledTask {
 	public void update(){
 		String[] sensors = TemperatureLog.getSensorNames();
 		for(String s : sensors){
-			try {
-				HttpResponse<String> response = Unirest.get(TemperatureLog.getUrl(s)).asString();
-				System.out.println(response.getBody());
-			} catch (UnirestException e) {
-				logger.error("Error retrieving temperature from " + s + ": " + e.getMessage());
-			}
+			Unirest.get(TemperatureLog.getUrl(s)).asStringAsync(new DataCallback(s));
 		}
+	}
+	
+	public static class DataCallback implements Callback<String>{
+
+		private String sensorName;
+		
+		public DataCallback(String sensorName){
+			this.sensorName = sensorName;
+		}
+		
+		public void cancelled() {
+		}
+
+		public void completed(HttpResponse<String> response) {
+			try {
+				String[] data = response.getBody().split(",");
+				double temp = Double.parseDouble(data[0]);
+				double humidity = Double.parseDouble(data[1]);
+				TemperatureLog.getLog(sensorName).log(new LogEntry(temp, humidity));
+			} catch (NumberFormatException e) {
+				logger.error("Number format exception: Could not parse " + response.getBody());
+			} catch (ArrayIndexOutOfBoundsException e){
+				logger.error("Data returned from temperature sensor was improperly formatted. Got " + response.getBody());
+			}
+			
+		}
+
+		public void failed(UnirestException e) {
+			logger.error("Failed to retrieve data from sensor " + sensorName + ": ", e);
+		}
+		
 	}
 	
 }
