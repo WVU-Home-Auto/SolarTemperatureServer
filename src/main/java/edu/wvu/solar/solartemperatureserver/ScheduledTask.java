@@ -50,6 +50,7 @@ public class ScheduledTask {
 				String[] data = response.getBody().split(",");
 				double temp = Double.parseDouble(data[0]);
 				double humidity = Double.parseDouble(data[1]);
+				temp = (temp * 1.8) + 32;
 				TemperatureLog.getLog(sensorName).log(new LogEntry(temp, humidity));
 			} catch (NumberFormatException e) {
 				logger.error("Number format exception: Could not parse " + response.getBody());
