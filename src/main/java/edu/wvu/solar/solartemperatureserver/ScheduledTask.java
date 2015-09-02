@@ -26,7 +26,8 @@ public class ScheduledTask {
 	 *   -Compare current temperature with set temperature and outside temperature
 	 *   -Determine whether to turn the Nest thermostat on or off
 	 */
-	@Scheduled(cron = "${tempCheckCron}")
+	//@Scheduled(cron = "${tempCheckCron}")
+	@Scheduled(cron = "0 */2 * * * *")
 	public void update(){
 		String[] sensors = TemperatureLog.getSensorNames();
 		for(String s : sensors){

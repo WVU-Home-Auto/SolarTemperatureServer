@@ -1,7 +1,9 @@
 package edu.wvu.solar.solartemperatureserver;
 
 import java.util.LinkedList;
+
 import org.joda.time.DateTime;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
