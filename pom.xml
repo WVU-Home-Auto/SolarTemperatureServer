@@ -47,11 +47,11 @@
 			<version>1.2.5.RELEASE</version>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>1.2.5.RELEASE</version>
-            <scope>provided</scope>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<version>1.2.5.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -65,6 +65,11 @@
 			<version>1.4.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.firebase</groupId>
+			<artifactId>firebase-client-jvm</artifactId>
+			<version>2.2.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
