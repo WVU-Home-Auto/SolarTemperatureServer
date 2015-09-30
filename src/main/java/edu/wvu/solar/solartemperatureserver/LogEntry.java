@@ -82,6 +82,6 @@ public class LogEntry {
 
 	@Override
 	public String toString(){
-		return time + DELIMITER + Double.toString(temp) + DELIMITER + Double.toString(humidity);
+		return String.format("%s" + DELIMITER + "%.2f" + DELIMITER + "%.2f", time, temp, humidity);
 	}
 }
